@@ -1,0 +1,11 @@
+# Emacs drops a lot of temporary or site-specific files in the ~/.emacs.d
+# directory, most of which we don't need to version control.
+*
+
+# Just the few things we want to version control
+!*.el
+!.gitignore
+!LICENSE
+!Makefile
+!README.md
+!backups

@@ -1,0 +1,3 @@
+# Why the empty directory? Emacs will silently not backup if it doesn't exist.
+*
+!.gitignore
