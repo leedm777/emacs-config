@@ -11,13 +11,17 @@ can check that out at https://github.com/flyingmachine/emacs-for-clojure.
 
 I primarily use macOS, with Emacs installed via [`homebrew cask`][cask].
 
-I use [a launchd script][launchd] to keep an [emacs server][] running in the
+I use [a launchd script][launchd] to keep an [Emacs server][] running in the
 background, to avoid long startup times. I have an alias to use `emacsclient`
 when the server is running, and fall back to plain `emacs` when it's not.
 
 ```bash
 alias emacs="emacsclient --create-frame --alternate-editor emacs"
 ```
+
+In order to get the `PATH` right for Emacs server, I run `sudo launchctl config
+user path "$PATH"`. This sets the path for all services and all users, which is
+usually what I want anyways.
 
 ## License
 

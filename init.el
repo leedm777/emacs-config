@@ -276,16 +276,3 @@
 (add-hook 'shell-mode-hook  'with-editor-export-editor)
 (add-hook 'term-mode-hook   'with-editor-export-editor)
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
-
-;;
-;; shell-integration
-;;
-;; Sets up exec-path-from shell
-;; https://github.com/purcell/exec-path-from-shell
-(when (and
-       (not (string= "true" (getenv "EMACS_LOGIN_SHELL")))
-       ;;(memq window-system '(mac ns))
-       )
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-envs
-   '("PATH")))
