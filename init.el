@@ -177,12 +177,6 @@
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
 
-;; regex search by default
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
-
 ;; comments
 (defun toggle-comment-on-line ()
   "comment or uncomment current line"
