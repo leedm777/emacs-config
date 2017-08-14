@@ -31,11 +31,12 @@
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(initial-major-mode (quote org-mode))
  '(initial-scratch-message nil)
  '(markdown-asymmetric-header t)
  '(package-selected-packages
    (quote
-    (aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
+    (aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit persistent-scratch php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
  '(require-final-newline t)
  '(save-interprogram-paste-before-kill t)
  '(save-place-mode t)
@@ -270,3 +271,8 @@
 (add-hook 'shell-mode-hook  'with-editor-export-editor)
 (add-hook 'term-mode-hook   'with-editor-export-editor)
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
+
+;;
+;; persistent-scratch
+;;
+(persistent-scratch-setup-default)
