@@ -34,6 +34,8 @@
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message nil)
  '(markdown-asymmetric-header t)
+ '(org-catch-invisible-edits (quote show))
+ '(org-support-shift-select t)
  '(package-selected-packages
    (quote
     (aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit persistent-scratch php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
@@ -44,6 +46,8 @@
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
  '(show-trailing-whitespace t)
+ '(solarized-scale-org-headlines nil)
+ '(solarized-use-variable-pitch nil)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -273,6 +277,14 @@
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 
 ;;
-;; persistent-scratch
+;; persistent-scratch - occasional lockfile conflicts :-(
 ;;
-(persistent-scratch-setup-default)
+;;(persistent-scratch-setup-default)
+
+;;
+;; org-mode; as recommended by http://orgmode.org/
+;;
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
