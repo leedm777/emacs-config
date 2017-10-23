@@ -208,6 +208,11 @@
             (define-key shell-mode-map (kbd "<s-down>") 'comint-next-input)))
 
 ;;
+;; PHP
+;;
+(add-to-list 'auto-mode-alist '("\\.ctp$" . php-mode))
+
+;;
 ;; Clojure
 ;;
 (require 'clojure-mode-extra-font-locking)
