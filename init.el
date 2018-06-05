@@ -57,6 +57,13 @@
  )
 
 ;;;
+;;; Server
+;;;
+
+;; attempts at using --daemon on macOS have not gone well.
+(server-start)
+
+;;;
 ;;; CSS
 ;;;
 
