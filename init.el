@@ -1,9 +1,13 @@
 (require 'package)
+(add-to-list 'package-archives
+             '("tromey" . "http://tromey.com/elpa/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+(add-to-list 'package-pinned-packages '(magit . "melpa-stable") t)
 
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
@@ -13,6 +17,12 @@
 ;; packages are loaded before you start trying to modify them.
 ;; This also sets the load path.
 (package-initialize)
+
+;; Download the ELPA archive description if needed.
+;; This informs Emacs about the latest versions of all packages, and
+;; makes them available for download.
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -71,34 +81,6 @@
 (add-hook 'css-mode-hook #'aggressive-indent-mode)
 
 ;;;
-;;; Lisps
-;;;
-
-;; There are a lot of them
-(defvar lisp-mode-hooks
-  '(emacs-lisp-mode-hook
-    clojure-mode-hook
-    eval-expression-minibuffer-setup-hook
-    ielm-mode-hook
-    lisp-mode-hook
-    lisp-interaction-mode-hook
-    scheme-mode-hook))
-
-(dolist (h lisp-mode-hooks)
-  ;; lisp mode with superpowers
-  (add-hook h #'paredit-mode)
-  ;; such regular languages can be aggressively indented
-  (add-hook h #'aggressive-indent-mode)
-  ;; rainbows AND UNICORNS
-  (add-hook h #'rainbow-delimiters-mode))
-
-;; eldoc-mode shows documentation in the minibuffer when writing code
-;; http://www.emacswiki.org/emacs/ElDoc
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
-
-;;;
 ;;; Trailing whitespace
 ;;;
 
@@ -126,6 +108,14 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
+;; Turn on recent file mode so that you can more easily switch to
+;; recently edited files when you first start emacs
+(setq recentf-save-file (concat user-emacs-directory ".recentf"))
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 40)
+
+
 ;; ido-mode allows you to more easily navigate choices. For example,
 ;; when you want to switch buffers, ido presents you with a list
 ;; of buffers in the the mini-buffer. As you start to type a buffer's
@@ -151,6 +141,10 @@
 ;; This enables ido in all contexts where it could be useful, not just
 ;; for selecting buffer and file names
 (ido-ubiquitous-mode 1)
+
+;; Shows a list of buffers
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 
 ;; Enhances M-x to allow easier execution of commands. Provides
 ;; a filterable list of possible commands in the minibuffer
@@ -220,12 +214,77 @@
 (add-to-list 'auto-mode-alist '("\\.ctp$" . php-mode))
 
 ;;
+;; JavaScript
+;;
+
+(add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
+(add-hook 'js-mode-hook 'subword-mode)
+(add-hook 'html-mode-hook 'subword-mode)
+(eval-after-load "sgml-mode"
+  '(progn
+     (require 'tagedit)
+     (tagedit-add-paredit-like-keybindings)
+     (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))))
+
+;;;
+;;; Lisps
+;;;
+
+;; There are a lot of them
+(defvar lisp-mode-hooks
+  '(emacs-lisp-mode-hook
+    eval-expression-minibuffer-setup-hook
+    ielm-mode-hook
+    lisp-mode-hook
+    lisp-interaction-mode-hook
+    scheme-mode-hook
+    clojure-mode-hook))
+
+(dolist (h lisp-mode-hooks)
+  ;; lisp mode with superpowers
+  (add-hook h #'paredit-mode)
+  ;; such regular languages can be aggressively indented
+  (add-hook h #'aggressive-indent-mode)
+  ;; rainbows AND UNICORNS
+  (add-hook h #'rainbow-delimiters-mode))
+
+;; eldoc-mode shows documentation in the minibuffer when writing code
+;; http://www.emacswiki.org/emacs/ElDoc
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
+;;
 ;; Clojure
 ;;
+
+;; This is useful for working with camel-case tokens, like names of
+;; Java classes (e.g. JavaClassName)
+(add-hook 'clojure-mode-hook 'subword-mode)
+
+;; A little more syntax highlighting
 (require 'clojure-mode-extra-font-locking)
 
+;; syntax hilighting for midje
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (setq inferior-lisp-program "lein repl")
+            (font-lock-add-keywords
+             nil
+             '(("(\\(facts?\\)"
+                (1 font-lock-keyword-face))
+               ("(\\(background?\\)"
+                (1 font-lock-keyword-face))))
+            (define-clojure-indent (fact 1))
+            (define-clojure-indent (facts 1))))
+
+(setq cider-cljs-lein-repl
+      "(do (require 'figwheel-sidecar.repl-api)
+           (figwheel-sidecar.repl-api/start-figwheel!)
+           (figwheel-sidecar.repl-api/cljs-repl))")
+
 ;; provides minibuffer documentation for the code you're typing into the repl
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook #'eldoc-mode) ; was cider-turn-on-eldoc-mode
 
 ;; go right to the REPL buffer when it's finished connecting
 (setq cider-repl-pop-to-buffer-on-connect t)
@@ -240,9 +299,13 @@
 ;; Wrap when navigating history.
 (setq cider-repl-wrap-history t)
 
+;; enable paredit in your REPL
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+
 ;; Use clojure mode for other extensions
 (add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\\.boot$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.cljs.*$" . clojurescript-mode))
 (add-to-list 'auto-mode-alist '("lein-env" . enh-ruby-mode))
 
 ;; key bindings
@@ -270,15 +333,6 @@
      (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
      (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
      (define-key cider-mode-map (kbd "C-c u") 'cider-user-ns)))
-
-;;
-;; JavaScript
-;;
-(eval-after-load "sgml-mode"
-  '(progn
-     (require 'tagedit)
-     (tagedit-add-paredit-like-keybindings)
-     (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))))
 
 ;;
 ;; with-editor
