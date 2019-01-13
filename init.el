@@ -173,7 +173,7 @@
 ;;
 
 ;; Hippied-expand goodness
-(global-set-key "\M- " 'hippie-expand)
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; Lisp-friendly hippie expand
 (setq hippie-expand-try-functions-list
@@ -284,7 +284,7 @@
            (figwheel-sidecar.repl-api/cljs-repl))")
 
 ;; provides minibuffer documentation for the code you're typing into the repl
-(add-hook 'cider-mode-hook #'eldoc-mode) ; was cider-turn-on-eldoc-mode
+(add-hook 'cider-mode-hook 'eldoc-mode)
 
 ;; go right to the REPL buffer when it's finished connecting
 (setq cider-repl-pop-to-buffer-on-connect t)
