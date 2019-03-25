@@ -48,7 +48,8 @@
  '(org-support-shift-select t)
  '(package-selected-packages
    (quote
-    (aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit persistent-scratch php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
+    (paradox aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit persistent-scratch php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
+ '(paradox-automatically-star t)
  '(require-final-newline t)
  '(save-interprogram-paste-before-kill t)
  '(save-place-mode t)
@@ -354,3 +355,9 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+;;
+;; paradox authentication
+;;
+(setq paradox-github-token
+      (cadr(auth-source-user-and-password "api.github.com" "leedm777^paradox")))
