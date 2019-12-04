@@ -44,6 +44,7 @@
  '(initial-major-mode (quote org-mode))
  '(initial-scratch-message nil)
  '(markdown-asymmetric-header t)
+ '(mouse-yank-at-point t)
  '(org-catch-invisible-edits (quote show))
  '(org-support-shift-select t)
  '(package-selected-packages
@@ -54,6 +55,7 @@
  '(save-interprogram-paste-before-kill t)
  '(save-place-mode t)
  '(savehist-mode t nil nil "so mini-buffer commands are saved between session")
+ '(select-enable-primary t)
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
  '(show-trailing-whitespace t)
@@ -94,6 +96,40 @@
     cidr-repl-mode-hook))
 (dolist (h interactive-mode-hooks)
   (add-hook h (lambda () (set 'show-trailing-whitespace nil))))
+
+
+
+;;
+;; with-editor
+;;
+(require 'with-editor)
+(add-hook 'shell-mode-hook  'with-editor-export-editor)
+(add-hook 'term-mode-hook   'with-editor-export-editor)
+(add-hook 'eshell-mode-hook 'with-editor-export-editor)
+
+;;
+;; persistent-scratch - occasional lockfile conflicts :-(
+;;
+;;(persistent-scratch-setup-default)
+
+;;
+;; org-mode; as recommended by http://orgmode.org/
+;;
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+;;
+;; paradox authentication
+;;
+(setq paradox-github-token
+      (cadr(auth-source-user-and-password "api.github.com" "leedm777^paradox")))
+
+;;;;
+;;;; Emacs for Clojure setup - Following config copied and customized from
+;;;; https://github.com/flyingmachine/emacs-for-clojure/ at 44d0d5b6
+;;;;
 
 ;;
 ;; Navigation
@@ -142,6 +178,7 @@
 ;; This enables ido in all contexts where it could be useful, not just
 ;; for selecting buffer and file names
 (ido-ubiquitous-mode 1)
+(ido-everywhere t)
 
 ;; Shows a list of buffers
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -210,6 +247,16 @@
             (define-key shell-mode-map (kbd "<s-down>") 'comint-next-input)))
 
 ;;
+;; misc
+;;
+
+;; Changes all yes/no questions to y/n type
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; No need for ~ files when editing
+(setq create-lockfiles nil)
+
+;;
 ;; PHP
 ;;
 (add-to-list 'auto-mode-alist '("\\.ctp$" . php-mode))
@@ -219,8 +266,6 @@
 ;;
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
-(add-hook 'js-mode-hook 'subword-mode)
-(add-hook 'html-mode-hook 'subword-mode)
 (eval-after-load "sgml-mode"
   '(progn
      (require 'tagedit)
@@ -242,7 +287,8 @@
     clojure-mode-hook))
 
 (dolist (h lisp-mode-hooks)
-  ;; lisp mode with superpowers
+  ;; Automatically load paredit when editing a lisp file
+  ;; More at http://www.emacswiki.org/emacs/ParEdit
   (add-hook h #'paredit-mode)
   ;; such regular languages can be aggressively indented
   (add-hook h #'aggressive-indent-mode)
@@ -277,12 +323,8 @@
                ("(\\(background?\\)"
                 (1 font-lock-keyword-face))))
             (define-clojure-indent (fact 1))
-            (define-clojure-indent (facts 1))))
-
-(setq cider-cljs-lein-repl
-      "(do (require 'figwheel-sidecar.repl-api)
-           (figwheel-sidecar.repl-api/start-figwheel!)
-           (figwheel-sidecar.repl-api/cljs-repl))")
+            (define-clojure-indent (facts 1))
+            (rainbow-delimiters-mode)))
 
 ;; provides minibuffer documentation for the code you're typing into the repl
 (add-hook 'cider-mode-hook 'eldoc-mode)
@@ -334,30 +376,3 @@
      (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
      (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
      (define-key cider-mode-map (kbd "C-c u") 'cider-user-ns)))
-
-;;
-;; with-editor
-;;
-(require 'with-editor)
-(add-hook 'shell-mode-hook  'with-editor-export-editor)
-(add-hook 'term-mode-hook   'with-editor-export-editor)
-(add-hook 'eshell-mode-hook 'with-editor-export-editor)
-
-;;
-;; persistent-scratch - occasional lockfile conflicts :-(
-;;
-;;(persistent-scratch-setup-default)
-
-;;
-;; org-mode; as recommended by http://orgmode.org/
-;;
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-;;
-;; paradox authentication
-;;
-(setq paradox-github-token
-      (cadr(auth-source-user-and-password "api.github.com" "leedm777^paradox")))
