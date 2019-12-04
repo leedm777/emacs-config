@@ -49,7 +49,7 @@
  '(org-support-shift-select t)
  '(package-selected-packages
    (quote
-    (paradox aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit persistent-scratch php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
+    (company paradox aggressive-indent auto-complete cider clojure-mode clojure-mode-extra-font-locking csharp-mode dockerfile-mode editorconfig git-commit git-gutter git-gutter-fringe gitignore-mode ido-completing-read+ ido-ubiquitous ledger-mode magit magit-filenotify markdown-mode markdown-toc paredit persistent-scratch php-mode projectile puppet-mode rainbow-delimiters smex solarized-theme tagedit terraform-mode with-editor yaml-mode)))
  '(paradox-automatically-star t)
  '(require-final-newline t)
  '(save-interprogram-paste-before-kill t)
@@ -125,6 +125,12 @@
 ;;
 (setq paradox-github-token
       (cadr(auth-source-user-and-password "api.github.com" "leedm777^paradox")))
+
+;;
+;; company autocomplete
+;;
+(global-set-key (kbd "C-SPC") #'company-complete)
+(global-company-mode) ; probably a bad idea, but let's see how it works
 
 ;;;;
 ;;;; Emacs for Clojure setup - Following config copied and customized from
