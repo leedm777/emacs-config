@@ -272,6 +272,8 @@
 ;;
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.cjs$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs$" . js-mode))
 (eval-after-load "sgml-mode"
   '(progn
      (require 'tagedit)
