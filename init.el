@@ -22,6 +22,25 @@
   :config (load-theme 'solarized-dark t))
 
 ;;
+;; And ligatures
+;;
+(use-package ligature
+  :config
+  (ligature-set-ligatures
+   't
+   '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode 't))
+
+;;
 ;; Autocomplete
 ;;
 (use-package company
@@ -197,16 +216,14 @@
  '(org-support-shift-select t)
  '(package-selected-packages
    '(aggressive-indent company dockerfile-mode git-gutter-fringe git-modes
-                       ido-completing-read+ magit markdown-toc paredit
+                       ido-completing-read+ ligature magit markdown-toc paredit
                        persistent-scratch php-mode rainbow-delimiters smex
-                       solarized-theme tagedit typescript-mode web-mode
-                       yaml-mode))
+                       solarized-theme typescript-mode yaml-mode))
  '(require-final-newline t)
  '(save-interprogram-paste-before-kill t)
  '(save-place-mode t)
  '(savehist-mode t nil nil "so mini-buffer commands are saved between session")
  '(select-enable-primary t)
- '(show-paren-mode t)
  '(show-trailing-whitespace t)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -214,4 +231,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "FiraCode Nerd Font Mono" :foundry "nil" :slant normal :weight regular :height 120 :width normal)))))
