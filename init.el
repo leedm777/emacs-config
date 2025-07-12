@@ -201,6 +201,11 @@
 (use-package yaml-mode
   :mode "\\.ya?ml\\'")
 
+;;
+;; Trying server mode again
+;;
+(server-start)
+
 ;; Wait until the next time I do Clojure for these
 ;;  - cider clojure-mode clojure-mode-extra-font-locking
 
