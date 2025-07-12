@@ -47,6 +47,7 @@
 ;; And ligatures
 ;;
 (use-package ligature
+  :if (display-graphic-p)
   :config
   (ligature-set-ligatures
    't
