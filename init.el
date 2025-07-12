@@ -207,7 +207,7 @@
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(initial-major-mode 'org-mode)
+ '(initial-major-mode 'markdown-mode)
  '(initial-scratch-message nil)
  '(mouse-yank-at-point t)
  '(org-fold-catch-invisible-edits 'show)
