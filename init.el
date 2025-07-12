@@ -22,6 +22,16 @@
   :config (load-theme 'solarized-dark t))
 
 ;;
+;; Changes all yes/no questions to y/n type
+;;
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;;
+;; Get focus on startup
+;;
+(select-frame-set-input-focus (selected-frame))
+
+;;
 ;; And ligatures
 ;;
 (use-package ligature
@@ -39,6 +49,12 @@
      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode 't))
+
+;;
+;; EditorConfig is awesome
+;;
+(use-package editorconfig
+  :config (editorconfig-mode 1))
 
 ;;
 ;; Autocomplete
@@ -79,12 +95,6 @@
   (add-to-list 'aggressive-indent-excluded-modes 'nix-mode)
   ;; jsonnet-mode's formatting differs from jsonnetfmt command
   (add-to-list 'aggressive-indent-excluded-modes 'jsonnet-mode))
-
-;;
-;; EditorConfig is awesome
-;;
-(use-package editorconfig
-  :config (editorconfig-mode 1))
 
 ;;
 ;; Power tools for parenthesis.
@@ -133,7 +143,7 @@
   (persistent-scratch-setup-default))
 
 ;;
-;; Allow emacs to use itself as an editor in shells.
+;; Allow emacs to use itself as an editor in its own shells.
 ;;
 (use-package with-editor
   :hook ((shell-mode eshell-mode term-exec vterm-mode) . with-editor-export-editor))
@@ -148,7 +158,7 @@
 ;; Various modes
 ;;
 (use-package typescript-mode
-  :mode ("\\.tsx?\\'" . typescript-mode))
+  :mode "\\.tsx?\\'")
 (use-package ruby-mode
   :mode "\\.rb\\'"
   :interpreter "ruby")
@@ -156,7 +166,7 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
 (use-package dockerfile-mode
-  :mode ("Dockerfile\\'" . dockerfile-mode))
+  :mode "Dockerfile\\'")
 (use-package gitattributes-mode
   :ensure git-modes
   :defer t)
@@ -166,27 +176,17 @@
 (use-package gitignore-mode
   :ensure git-modes
   :defer t)
+(use-package js2-mode
+  :mode ("\\.[cm]?js\\'"))
 (use-package markdown-mode
-  :mode ("\\.md\\'" . markdown-mode)
+  :mode "\\.md\\'"
   :config (setq markdown-asymmetric-header t))
 (use-package markdown-toc
   :defer t)
 (use-package php-mode
-  :defer t
-  :mode ("\\.php\\'" . php-mode))
+  :mode "\\.php\\'")
 (use-package yaml-mode
-  :defer t
-  :config (message "yaml-mode loaded"))
-
-;;
-;; Changes all yes/no questions to y/n type
-;;
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;;
-;; Get focus on startup
-;;
-(select-frame-set-input-focus (selected-frame))
+  :mode "\\.ya?ml\\'")
 
 ;; Wait until the next time I do Clojure for these
 ;;  - cider clojure-mode clojure-mode-extra-font-locking
@@ -202,10 +202,8 @@
  '(create-lockfiles nil)
  '(cursor-type 'bar)
  '(delete-selection-mode t)
- '(editorconfig-mode t)
  '(fill-column 80)
  '(global-auto-revert-mode t)
- '(global-git-gutter-mode t)
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
@@ -214,12 +212,9 @@
  '(mouse-yank-at-point t)
  '(org-fold-catch-invisible-edits 'show)
  '(org-support-shift-select t)
- '(package-selected-packages
-   '(aggressive-indent company dockerfile-mode git-gutter-fringe git-modes
-                       ido-completing-read+ ligature magit markdown-toc paredit
-                       persistent-scratch php-mode rainbow-delimiters smex
-                       solarized-theme typescript-mode yaml-mode))
+ '(package-selected-packages nil)
  '(require-final-newline t)
+ '(safe-local-variable-values '((js2-basic-offset . 2)))
  '(save-interprogram-paste-before-kill t)
  '(save-place-mode t)
  '(savehist-mode t nil nil "so mini-buffer commands are saved between session")
