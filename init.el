@@ -206,6 +206,12 @@
 ;;
 (server-start)
 
+;;
+;; Command-click since I don't have three button on my trackpad
+;;
+(define-key key-translation-map (kbd "<s-mouse-1>") (kbd "<mouse-2>"))
+
+
 ;; Wait until the next time I do Clojure for these
 ;;  - cider clojure-mode clojure-mode-extra-font-locking
 
