@@ -1,24 +1,36 @@
 ;;; -*- lexical-binding: t -*-
 
+(if (version< emacs-version "29.3")
+    ;; Code to execute if Emacs is too old
+    (message "Your Emacs version (%s) is too old. Please upgrade." emacs-version))
+
 ;;
 ;; use-package
 ;;
 (require 'package)
-(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
+
+;; unnecessary in Emacs 27+
+;;(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'use-package-ensure)
+;; unnecessary with use-package
+;; (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+
+;; If I need to profile my Emacs startup...
+;; (use-package benchmark-init
+;;   :init (benchmark-init/activate)
+;;   :hook (after-init . benchmark-init/deactivate))
 
 ;;
 ;; Still a fan of Solarized...
 ;;
 (use-package solarized-theme
+  :if (display-graphic-p)
   :config (load-theme 'solarized-dark t))
 
 ;;
@@ -48,7 +60,7 @@
      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-  (global-ligature-mode 't))
+  (global-ligature-mode t))
 
 ;;
 ;; EditorConfig is awesome
@@ -60,24 +72,24 @@
 ;; Autocomplete
 ;;
 (use-package company
-  :defer nil
   :bind (("C-SPC" . company-complete))
-  :config (add-hook 'after-init-hook 'global-company-mode))
+  :hook (after-init . global-company-mode))
 
 ;;
 ;; Even more autocomplete
 ;;
 (use-package ido-completing-read+
+  :init
+  ;; This allows partial matches, e.g. "uzh" will match "Ustad Zakir Hussain"
+  (setq ido-enable-flex-matching t
+        ido-use-filename-at-point nil
+        ;; Includes buffer names of recently opened files, even if they're not open now.
+        ido-use-virtual-buffers t)
   :config
   ;; This enables ido in all contexts where it could be useful, not just
   ;; for selecting buffer and file names
   (ido-mode t)
-  (ido-everywhere t)
-  ;; This allows partial matches, e.g. "uzh" will match "Ustad Zakir Hussain"
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-filename-at-point nil)
-  ;; Includes buffer names of recently opened files, even if they're not open now.
-  (setq ido-use-virtual-buffers t))
+  (ido-everywhere t))
 
 ;;
 ;; MOAR AUTO COMPLETE
@@ -100,15 +112,15 @@
 ;; Power tools for parenthesis.
 ;;
 (use-package paredit
-  :init
-  (add-hook 'clojure-mode-hook #'enable-paredit-mode)
-  (add-hook 'cider-repl-mode-hook #'enable-paredit-mode)
-  (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+  :hook ((clojure-mode
+          cider-repl-mode
+          emacs-lisp-mode
+          eval-expression-minibuffer-setup
+          ielm-mode
+          lisp-mode
+          lisp-interaction-mode
+          scheme-mode)
+         . enable-paredit-mode)
   :config
   (show-paren-mode t)
   :bind (("M-[" . paredit-wrap-square)
