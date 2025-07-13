@@ -17,8 +17,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; unnecessary with use-package
-;; (require 'use-package-ensure)
+(require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
 ;; If I need to profile my Emacs startup...
