@@ -95,9 +95,8 @@
 ;;
 ;; MOAR AUTO COMPLETE
 ;;
-(use-package smex
-  :config (smex-initialize)
-  :bind ("M-x" . smex))
+(use-package amx
+  :bind ("M-x" . amx))
 
 ;;
 ;; Aggressively indent everything. Might need to scale this back over time.
