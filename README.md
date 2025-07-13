@@ -23,7 +23,7 @@ Instead I just run `(server-start)` in my `init.el`, and use an alias for
 `emacs` that will use that server if running, but launch a new editor if not.
 
 ```bash
-alias emacs="emacsclient --create-frame --alternate-editor emacs"
+alias emacs="emacsclient --quiet --create-frame --alternate-editor emacs"
 ```
 
 ## License
