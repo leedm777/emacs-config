@@ -28,9 +28,9 @@ alias emacs="emacsclient --create-frame --alternate-editor emacs"
 
 ## License
 
- [ISC](https://opensource.org/licenses/ISC)
- [brave]: http://www.braveclojure.com/
- [homebrew]: https://formulae.brew.sh/cask/emacs-app#default
- [emacs]: https://www.gnu.org/software/emacs/
- [emacs server]: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
- [use-package]: https://github.com/jwiegley/use-package
+[ISC](https://opensource.org/licenses/ISC)
+[brave]: http://www.braveclojure.com/
+[homebrew]: https://formulae.brew.sh/cask/emacs-app#default
+[emacs]: https://www.gnu.org/software/emacs/
+[emacs server]: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
+[use-package]: https://github.com/jwiegley/use-package
